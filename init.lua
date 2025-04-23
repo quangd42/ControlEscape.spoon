@@ -17,11 +17,10 @@ obj.license = 'MIT - https://opensource.org/licenses/MIT'
 
 function obj:init()
   self.sendEscape = false
+  self.tapTime = 0.150 -- If `control` is held for this long, don't send `escape`
   self.lastModifiers = {}
 
-  -- If `control` is held for this long, don't send `escape`
-  local CANCEL_DELAY_SECONDS = 0.150
-  self.controlKeyTimer = hs.timer.delayed.new(CANCEL_DELAY_SECONDS, function()
+  self.controlKeyTimer = hs.timer.delayed.new(self.tapTime, function()
     self.sendEscape = false
   end)
 

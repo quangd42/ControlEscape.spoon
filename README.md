@@ -48,6 +48,18 @@ With one more bit of setup, you'll be able to hold <kbd>caps lock</kbd> for <kbd
 
 Open *System Preferences*, navigate to *Keyboard > Modifier Keys*, and set the <kbd>caps lock</kbd> key to <kbd>control</kbd>. [[screenshot]](https://user-images.githubusercontent.com/2988/27111039-7f620442-507b-11e7-9bcf-93d46e14af13.png)
 
+You may find that sometimes your ControlEscape key does not result in an <kbd>escape</kbd>, and you have tap it a few times. By default, the <kbd>escape</kbd> key is emitted if you tap and release the ControlEscape key within 150ms, and your pinky may not be dexterous enough to meet this requirement. In this case, you can adjust the tapTime in your Hammerspoon config (commonly `~/.hammerspoon/init.lua`):
+
+```lua
+-- replace this
+hs.loadSpoon("ControlEscape"):start() -- Load Hammerspoon bits from https://github.com/jasonrudolph/ControlEscape.spoon
+
+-- with
+control_escape = hs.loadSpoon("ControlEscape")
+control_escape.tapTime = 200 -- ms, making this number too high can make it hard to activate `control`
+control_escape:start() -- Load Hammerspoon bits from https://github.com/jasonrudolph/ControlEscape.spoon
+```
+
 Now you're ready to rock. 🤘
 
 ## Where can I get this code as a Spoon?
