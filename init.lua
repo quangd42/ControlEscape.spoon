@@ -18,6 +18,7 @@ obj.license = 'MIT - https://opensource.org/licenses/MIT'
 function obj:init()
   self.sendEscape = false
   self.lastModifiers = {}
+  -- self.timestamp = 0
 
   -- Create an eventtap to run each time the modifier keys change (i.e., each
   -- time a key like control, shift, option, or command is pressed or released)
@@ -40,9 +41,12 @@ function obj:init()
         self.lastModifiers = newModifiers
         self.sendEscape = true
         self.controlKeyTimer:start()
+        -- self.timestamp = hs.timer.absoluteTime()
       else
         if self.sendEscape then
           hs.eventtap.keyStroke({}, 'escape', 1)
+          -- print('escape sent after ' .. (hs.timer.absoluteTime() - self.timestamp) / 1000000 .. ' ms')
+          -- self.timestamp = 0
         end
         self.lastModifiers = newModifiers
         self.controlKeyTimer:stop()
@@ -70,6 +74,8 @@ function obj:start(tapTime)
   local CANCEL_DELAY_MS = tapTime or 150 -- ms, if `control` is held for this long, don't send `escape`
   self.controlKeyTimer = hs.timer.delayed.new(CANCEL_DELAY_MS / 1000, function()
     self.sendEscape = false
+    -- print('timer canceled after ' .. (hs.timer.absoluteTime() - self.timestamp) / 1000000 .. ' ms')
+    -- self.timestamp = 0
   end)
   self.controlTap:start()
   self.keyDownEventTap:start()
